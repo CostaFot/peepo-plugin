@@ -12,6 +12,7 @@ import com.github.costafot.peepoplugin.CoroutineScopeHolder
 import com.github.costafot.peepoplugin.chatApp.ChatAppSample
 import com.github.costafot.peepoplugin.chatApp.repository.ChatRepository
 import com.github.costafot.peepoplugin.chatApp.viewmodel.ChatViewModel
+import com.github.costafot.peepoplugin.giga.GifPluginApplicationService
 import com.github.costafot.peepoplugin.weatherApp.model.Location
 import com.github.costafot.peepoplugin.weatherApp.services.LocationsProvider
 import com.github.costafot.peepoplugin.weatherApp.services.WeatherForecastService
@@ -24,6 +25,8 @@ class ComposeSamplesToolWindowFactory : ToolWindowFactory, DumbAware {
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         weatherApp(project, toolWindow)
         chatApp(project, toolWindow)
+
+        val projectService = project.service<GifPluginApplicationService>()
     }
 
     private fun weatherApp(project: Project, toolWindow: ToolWindow) {
@@ -36,6 +39,7 @@ class ComposeSamplesToolWindowFactory : ToolWindowFactory, DumbAware {
         )
         Disposer.register(toolWindow.disposable, viewModel)
 
+        println("Quick println to stdout")
         toolWindow.addComposeTab("Weather App", focusOnClickInside = true) {
             LaunchedEffect(Unit) {
                 viewModel.onReloadWeatherForecast()
